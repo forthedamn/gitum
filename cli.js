@@ -158,19 +158,18 @@ function onDel(name) {
   });
 }
 
-function onAdd(name, url, home) {
+function onAdd(name, email) {
   const customuserList = getCustomConfig();
-  if (customuserList.hasOwnProperty(name)) return;
-  const config = customuserList[name] = {};
-  if (url[url.length - 1] !== '/') url += '/'; // ensure url end with /
-  config.registry = url;
-  if (home) {
-    config.home = home;
-  }
+  debug('customuserList %j', customuserList)
+  if (customuserList[name]) return;
+  const config = customuserList[name] = {
+    username: name,
+  };
+  config.email = email;
   setCustomConfig(customuserList, (err) => {
     if (err) return exit(err);
     printMsg([
-      '', `  add registry ${name} success`, '',
+      '', `  add user ${name} success`, '',
     ]);
   });
 }
@@ -251,7 +250,7 @@ function getCurrentConfig(cbk) {
 }
 
 function getCustomConfig() {
-  return fs.existsSync(GIT_CONFIG) ? ini.parse(fs.readFileSync(GIT_CONFIG, 'utf-8')) : {};
+  return fs.existsSync(userListPath) ? JSON.parse(fs.readFileSync(userListPath, 'utf-8')) : {};
 }
 
 function setCustomConfig(config, cbk) {
