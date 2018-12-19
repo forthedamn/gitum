@@ -24,10 +24,10 @@ const GIT_CONFIG = path.join(process.env.HOME, '.`gitconfig`');
 
 program
   .version(PKG.version);
-
+// TODO 别名
 program
   .command('ls')
-  .description('List all the user config')
+  .description('List all the git user config')
   .action(onList);
 
 program
@@ -36,18 +36,18 @@ program
   .action(showCurrent);
 
 program
-  .command('use <userconfig>')
-  .description('Change user config to userconfig')
+  .command('use <username>')
+  .description('Change git user config to username')
   .action(onUse);
 
 program
-  .command('add <registry> <url> [home]')
-  .description('Add one custom registry')
+  .command('add <username> <email>')
+  .description('Add one custom user config')
   .action(onAdd);
 
 program
-  .command('del <registry>')
-  .description('Delete one custom registry')
+  .command('del <username>')
+  .description('Delete one custom user config')
   .action(onDel);
 
 program
@@ -122,7 +122,7 @@ function showCurrent() {
 
 function onUse(name) {
   const alluserList = getAllConfig();
-  debug('alluserList %j', alluserList);
+  debug('[onUse] alluserList %j', alluserList);
   if (alluserList[name]) {
     const info = alluserList[name];
     git
@@ -130,7 +130,6 @@ function onUse(name) {
       .addConfig('user.email', info.email)
       .exec(() => {
         printMsg([
-          '            \n',
           '', `   Local user config has been set to: ${name}`, '',
         ]);
       });
@@ -143,16 +142,20 @@ function onUse(name) {
 
 function onDel(name) {
   const customuserList = getCustomConfig();
-  if (!customuserList.hasOwnProperty(name)) return;
+  if (!customuserList[name]) return;
   getCurrentConfig((cur) => {
-    if (cur === customuserList[name].registry) {
-      onUse('npm');
+    debug('[onDel] cur %s, customuserList.username %s', cur, customuserList[name].username);
+    if (cur === customuserList[name].username) {
+      printMsg([
+        '', ' local user is empty now.', '',
+      ]);
+      // TODO 清空 git config 配置
     }
     delete customuserList[name];
     setCustomConfig(customuserList, (err) => {
       if (err) return exit(err);
       printMsg([
-        '', `  delete registry ${name} success`, '',
+        '', `  delete user config ${name} success`, '',
       ]);
     });
   });
@@ -160,7 +163,7 @@ function onDel(name) {
 
 function onAdd(name, email) {
   const customuserList = getCustomConfig();
-  debug('customuserList %j', customuserList)
+  debug('[onAdd] customuserList %j', customuserList);
   if (customuserList[name]) return;
   const config = customuserList[name] = {
     username: name,
@@ -232,18 +235,20 @@ function onTest(registry) {
 function getCurrentConfig(cbk) {
   git.raw(['config', '--get', 'user.name'], (e, localuser) => {
     if (!localuser) {
-      git.raw(['config', '--get', '--global', 'user.name'], (e, globaluser) => {
-        if (!globaluser) {
-          console.log('no username in local and global');
-        } else {
-          git.raw(['config', '--get', '--global', 'user.email'], (err, globalemail) => {
-            cbk(globaluser, globalemail, 'global');
-          });
-        }
-      });
+      // 暂时不兼容 global
+      // git.raw(['config', '--get', '--global', 'user.name'], (e, globaluser) => {
+      //   if (!globaluser) {
+      //     console.log('no username in local and global');
+      //   } else {
+      //     git.raw(['config', '--get', '--global', 'user.email'], (err, globalemail) => {
+      //       cbk(globaluser, globalemail, 'global');
+      //     });
+      //   }
+      // });
+      console.log('local user is empty');
     } else {
       git.raw(['config', '--get', 'user.email'], (err, localemail) => {
-        cbk(localuser, localemail);
+        cbk(localuser.replace('\n', ''), localemail.replace('\n', ''));
       });
     }
   });
