@@ -1,0 +1,39 @@
+{
+  "name": "gitum",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "bin": "./cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --fix ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forthedamn/gitum.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/forthedamn/gitum/issues"
+  },
+  "homepage": "https://github.com/forthedamn/gitum#readme",
+  "dependencies": {
+    "async": "^1.5.2",
+    "commander": "^2.9.0",
+    "extend": "^3.0.0",
+    "ini": "^1.1.0",
+    "node-echo": "^0.1.1",
+    "only": "0.0.2",
+    "open": "0.0.5",
+    "request": "^2.72.0",
+    "simple-git": "^1.107.0",
+    "debug": "^4.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
+  }
+}
