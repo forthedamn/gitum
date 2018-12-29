@@ -47,7 +47,6 @@ program
 program
   .parse(process.argv);
 
-
 if (process.argv.length === 2) {
   program.outputHelp();
 }
@@ -74,15 +73,16 @@ function onList() {
       });
     };
 
-    // 如果没有初始化 list，则回调
     if (alluserList && Object.keys(alluserList).length === 0) {
       debug('alluserList empty');
+      if (!cur) return;
       return autoInit();
     }
 
     Object.keys(alluserList).forEach((key) => {
       const item = alluserList[key];
       let prefix = '  ';
+      if (!item.username) return;
       if (item.username === cur) {
         isMatch = true;
         prefix = '* ';
@@ -90,7 +90,7 @@ function onList() {
       info.push(prefix + key + line(key, 12) + item.email);
     });
 
-    if (!isMatch) {
+    if (!isMatch && cur) {
       autoInit();
       info.push(`* ${cur}${line(cur, 12)}${cemail}`);
     }
@@ -126,10 +126,15 @@ function onDel(name) {
   getCurrentConfig((cur) => {
     debug('[onDel] cur %s, customuserList.username %s', cur, customuserList[name].username);
     if (cur === customuserList[name].username) {
-      printMsg([
-        '', ' local user is empty now.', '',
-      ]);
-      // TODO 清空 git config 配置
+      // delete user in git config
+      git
+        .addConfig('user.name', '')
+        .addConfig('user.email', '')
+        .exec(() => {
+          printMsg([
+            '  local user is empty now.', '',
+          ]);
+        });
     }
     delete customuserList[name];
     setCustomConfig(customuserList, (err) => {
