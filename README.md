@@ -27,6 +27,23 @@ $ gum use zhoguoxin  //switch congi to zhoguoxin
 
 ```
 
+## Usage
+
+```
+Usage: gum [options] [command]
+
+Options:
+  -V, --version           output the version number
+  -h, --help              output usage information
+
+Commands:
+  ls                      List all the git user config
+  use <username>          Change git user config to username
+  add <username> <email>  Add one custom user config
+  del <username>          Delete one custom user config
+  help                    Print this help
+```
+
 ## LICENSE
 MIT
 
