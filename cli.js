@@ -9,7 +9,7 @@ const debug = require('debug')('gitum');
 
 const userList = require('./userconfig.json');
 
-const userListPath = path.resolve('./userconfig.json');
+const userListPath = path.resolve(__dirname, './userconfig.json');
 const PKG = require('./package.json');
 
 // const GIT_CONFIG = path.join(process.env.HOME, '.`gitconfig`');
@@ -58,12 +58,12 @@ function onList() {
   getCurrentConfig((cur, cemail) => {
     const info = [''];
     const alluserList = getAllConfig();
+    let isMatch = false;
     cur = cur.replace('\n', '');
     cemail = cemail.replace('\n', '');
 
-    // 如果没有初始化 list，则回调
-    if (alluserList && Object.keys(alluserList).length === 0) {
-      debug('alluserList empty');
+    // 如果没有匹配上，全局配置回填
+    const autoInit = () => {
       alluserList[cur] = {
         username: cur,
         email: cemail,
@@ -72,13 +72,28 @@ function onList() {
         if (err) return exit(err);
         return null;
       });
+    };
+
+    // 如果没有初始化 list，则回调
+    if (alluserList && Object.keys(alluserList).length === 0) {
+      debug('alluserList empty');
+      return autoInit();
     }
 
     Object.keys(alluserList).forEach((key) => {
       const item = alluserList[key];
-      const prefix = item.username === cur ? '* ' : '  ';
+      let prefix = '  ';
+      if (item.username === cur) {
+        isMatch = true;
+        prefix = '* ';
+      }
       info.push(prefix + key + line(key, 12) + item.email);
     });
+
+    if (!isMatch) {
+      autoInit();
+      info.push(`* ${cur}${line(cur, 12)}${cemail}`);
+    }
 
     info.push('');
     printMsg(info);

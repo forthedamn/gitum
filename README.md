@@ -16,15 +16,15 @@ $ npm install -g gitum
 ```
 $ gum ls
 
-* forthedamn - zhoguoxin@126.com
-  zhoguoxin -- zhoguoxin@company.com
+* forthedamn - forthedamn@github.com
+  name -- name@company.com
 
 ```
 
 ```
-$ gum use zhoguoxin  //switch congi to zhoguoxin
+$ gum use forthedamn  //switch config to forthedamn
 
-    Local user config has been set to: zhoguoxin
+    Local user config has been set to: forthedamn
 
 ```
 

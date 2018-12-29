@@ -1,6 +1,6 @@
 {
   "name": "gitum",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "git user config manager,help you easy and fast set git local user config",
   "main": "index.js",
   "bin": {
@@ -13,7 +13,10 @@
     "type": "git",
     "url": "git+https://github.com/forthedamn/gitum.git"
   },
-  "keywords": ["git", "git config"],
+  "keywords": [
+    "git",
+    "git config"
+  ],
   "author": "forthedamn",
   "license": "MIT",
   "bugs": {
