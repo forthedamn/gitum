@@ -76,7 +76,8 @@ function onList() {
     if (alluserList && Object.keys(alluserList).length === 0) {
       debug('alluserList empty');
       if (!cur) return;
-      return autoInit();
+      autoInit();
+      return printMsg([`* ${cur}${line(cur, 12)}${cemail}`]);
     }
 
     Object.keys(alluserList).forEach((key) => {
