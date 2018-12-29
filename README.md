@@ -21,7 +21,7 @@ $ gum ls
 ```
 
 ```
-$ gum use zhoguoxin  //switch congi to zhoguoxin
+$ gum use zhoguoxin  //switch config to zhoguoxin
 
     Local user config has been set to: zhoguoxin
 
