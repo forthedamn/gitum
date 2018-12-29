@@ -4,6 +4,7 @@ module.exports = {
     "no-use-before-define": 0,
     "no-param-reassign": 0,
     "no-multi-assign": 0,
-    "consistent-return": 0
+    "consistent-return": 0,
+    "no-underscore-dangle": 0
   }
 };
