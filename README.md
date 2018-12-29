@@ -1,5 +1,4 @@
 # gitum -- git user manager
-===
 
 [![NPM version][npm-image]][npm-url]
 
