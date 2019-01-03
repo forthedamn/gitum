@@ -54,7 +54,7 @@ if (process.argv.length === 2) {
 /* //////////////// cmd methods ///////////////// */
 
 function onList() {
-  getCurrentConfig((cur, cemail) => {
+  getCurrentConfig((cur = '', cemail = '') => {
     const info = [''];
     const alluserList = getAllConfig();
     let isMatch = false;
@@ -75,7 +75,9 @@ function onList() {
 
     if (alluserList && Object.keys(alluserList).length === 0) {
       debug('alluserList empty');
-      if (!cur) return;
+      if (!cur) {
+        return;
+      }
       autoInit();
       return printMsg([`* ${cur}${line(cur, 12)}${cemail}`]);
     }
@@ -181,7 +183,8 @@ function getCurrentConfig(cbk) {
       //     });
       //   }
       // });
-      console.log('local user is empty, use gum to add user');
+      console.log('local user is empty, use gum to add user in list:');
+      cbk();
     } else {
       git.raw(['config', '--get', 'user.email'], (err, localemail) => {
         cbk(localuser.replace('\n', ''), localemail.replace('\n', ''));

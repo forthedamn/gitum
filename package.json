@@ -1,6 +1,6 @@
 {
   "name": "gitum",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "git user config manager,help you easy and fast set git local user config",
   "main": "index.js",
   "bin": {
