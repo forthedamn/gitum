@@ -13,6 +13,22 @@ $ npm install -g gitum
 ## Example
 
 ```
+// 1.Add user config first
+$ gum add forthedamn forthedamn@github.com
+
+$ gum add name name@company.com
+
+```
+
+```
+// 2.Choose one user config,and your local git will use this user config
+$ gum use forthedamn //switch config to forthedamn
+
+    Local user config has been set to: forthedamn
+```
+
+
+```
 $ gum ls
 
 * forthedamn - forthedamn@github.com
@@ -20,12 +36,6 @@ $ gum ls
 
 ```
 
-```
-$ gum use forthedamn  //switch config to forthedamn
-
-    Local user config has been set to: forthedamn
-
-```
 
 ## Usage
 
